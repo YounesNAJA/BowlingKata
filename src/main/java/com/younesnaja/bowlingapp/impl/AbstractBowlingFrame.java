@@ -3,9 +3,16 @@ package com.younesnaja.bowlingapp.impl;
 import com.younesnaja.bowlingapp.BowlingFrame;
 
 public abstract class AbstractBowlingFrame implements BowlingFrame {
+    public enum FrameTypes {
+        OPEN, SPARE, STRIKE
+    }
+
     protected char firstRoll;
     protected char secondRoll;
-    protected BowlingFrame[] spareRolls;
+    protected int leftRolls = 0;
+    protected int frameNumber;
+    protected FrameTypes frameType;
+    protected char[] spareRolls;
     protected int frameScore = 0;
     protected boolean isDone = false;
 
@@ -13,20 +20,35 @@ public abstract class AbstractBowlingFrame implements BowlingFrame {
         return firstRoll;
     }
 
+    public void setFirstRoll(char firstRoll) {
+        this.firstRoll = firstRoll;
+    }
+
     public char getSecondRoll() {
         return secondRoll;
     }
 
     @Override
-    public BowlingFrame[] getSpareRolls() {
-        if(spareRolls == null)
-            spareRolls = new BowlingFrame[0];
-
-        return spareRolls;
+    public void setLeftRolls(int leftRolls) {
+        this.leftRolls = leftRolls;
     }
 
     @Override
-    public abstract void roll(int rollNumber, String knockScore);
+    public FrameTypes getFrameType() {
+        return frameType;
+    }
+
+    public void setFrameType(FrameTypes frameType) {
+        this.frameType = frameType;
+    }
+
+    @Override
+    public char[] getSpareRolls() {
+        if(spareRolls == null)
+            spareRolls = new char[0];
+
+        return spareRolls;
+    }
 
     @Override
     public abstract void scoreFrame();
@@ -39,9 +61,9 @@ public abstract class AbstractBowlingFrame implements BowlingFrame {
     }
 
     @Override
-    public abstract void addSpareFrame(BowlingFrame... bowlingFrame);
+    public abstract void addSpareFrame(BowlingFrame bowlingFrame);
 
-    protected int scoreSymbolsToInt(char scoreSymbol) {
+    public int scoreSymbolsToInt(char scoreSymbol) {
         if(Character.isLetter(scoreSymbol) && scoreSymbol == 'X'){
             return 10;
         }
@@ -64,5 +86,10 @@ public abstract class AbstractBowlingFrame implements BowlingFrame {
                 ", secondRoll=" + secondRoll +
                 ", frameScore=" + frameScore +
                 '}';
+    }
+
+    @Override
+    public AbstractBowlingFrame clone() throws CloneNotSupportedException {
+        return (AbstractBowlingFrame) super.clone();
     }
 }

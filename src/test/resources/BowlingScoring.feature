@@ -6,6 +6,7 @@ Feature: Bowling Game
     Given A Bowling game of 10 turns
     When  Bowler got strikes in all his ten rolls
     And   Does more X in the next left rolls
+    And   All spare rolls have been filled
     Then  the final score of the bowler must be 300
 
   Scenario: Bowler scores 9 in each of his first rolls and misses the second roll

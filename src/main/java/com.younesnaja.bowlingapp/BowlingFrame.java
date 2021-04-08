@@ -1,6 +1,6 @@
 package com.younesnaja.bowlingapp;
 
-import com.younesnaja.bowlingapp.impl.OpenBowlingFrame;
+import com.younesnaja.bowlingapp.impl.AbstractBowlingFrame;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,9 +9,11 @@ public interface BowlingFrame {
 
     char getFirstRoll();
 
-    char getSecondRoll();
+    void setFirstRoll(char firstRoll);
 
-    void roll(int rollNumber, String knockScore);
+    void setSecondRoll(char secondRoll);
+
+    char getSecondRoll();
 
     void scoreFrame();
 
@@ -19,10 +21,19 @@ public interface BowlingFrame {
 
     int getLeftRolls();
 
-    BowlingFrame[] getSpareRolls();
+    void setFrameType(AbstractBowlingFrame.FrameTypes frameType);
 
-    void addSpareFrame(BowlingFrame... bowlingFrame);
+    void setLeftRolls(int leftRolls);
 
-    boolean isDone();
+    char[] getSpareRolls();
 
+    void addSpareFrame(BowlingFrame bowlingFrame);
+
+    //boolean isDone();
+
+    AbstractBowlingFrame.FrameTypes getFrameType();
+
+    int scoreSymbolsToInt(char scoreSymbol);
+
+    void addSpareRolls(List<BowlingFrame> bowlingFrames);
 }
