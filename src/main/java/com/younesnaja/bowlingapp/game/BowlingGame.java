@@ -7,30 +7,20 @@ import java.util.List;
 
 public abstract class BowlingGame implements GameObservable {
     protected final int NUMBER_OF_FRAMES;
-    protected final int NUMBER_OF_TURNS;
     protected int turnNumber;
-    protected final boolean isDone = false;
     protected List<BowlingFrame> bowlingFrames;
 
-    public BowlingGame(int NUMBER_OF_FRAMES, int NUMBER_OF_TURNS) {
+    public BowlingGame(int NUMBER_OF_FRAMES) {
         this.NUMBER_OF_FRAMES = NUMBER_OF_FRAMES;
-        this.NUMBER_OF_TURNS = NUMBER_OF_TURNS;
     }
 
     protected BowlingGame() {
         NUMBER_OF_FRAMES = 10;
-        NUMBER_OF_TURNS = 2;
     }
 
     protected void initFrames() {}
 
-    public abstract int getBonusRolls();
-
     public abstract int scoreGame();
-
-    public abstract boolean isDone();
-
-    public abstract void setFrames(List bowlingFrames);
 
     public int getNumberOfFrames() {
         return NUMBER_OF_FRAMES;

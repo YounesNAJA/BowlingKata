@@ -4,10 +4,6 @@ package com.younesnaja.bowlingapp.frame.impl;
 import com.younesnaja.bowlingapp.frame.BowlingFrame;
 
 public abstract class AbstractBowlingFrame implements BowlingFrame {
-    public enum FrameTypes {
-        OPEN, SPARE, STRIKE
-    }
-
     protected char firstRoll;
     protected char secondRoll;
     protected int leftRolls = 0;
@@ -16,6 +12,10 @@ public abstract class AbstractBowlingFrame implements BowlingFrame {
     protected char[] spareRolls;
     protected int frameScore = 0;
     protected boolean isDone = false;
+
+    public enum FrameTypes {
+        OPEN, SPARE, STRIKE
+    }
 
     public char getFirstRoll() {
         return firstRoll;
@@ -27,16 +27,6 @@ public abstract class AbstractBowlingFrame implements BowlingFrame {
 
     public char getSecondRoll() {
         return secondRoll;
-    }
-
-    @Override
-    public void setLeftRolls(int leftRolls) {
-        this.leftRolls = leftRolls;
-    }
-
-    @Override
-    public FrameTypes getFrameType() {
-        return frameType;
     }
 
     public void setFrameType(FrameTypes frameType) {

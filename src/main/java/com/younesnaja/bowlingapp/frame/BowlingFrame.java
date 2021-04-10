@@ -20,11 +20,7 @@ public interface BowlingFrame extends FrameObserver {
 
     void setFrameType(AbstractBowlingFrame.FrameTypes frameType);
 
-    void setLeftRolls(int leftRolls);
-
     char[] getSpareRolls();
-
-    AbstractBowlingFrame.FrameTypes getFrameType();
 
     int scoreSymbolsToInt(char scoreSymbol);
 }

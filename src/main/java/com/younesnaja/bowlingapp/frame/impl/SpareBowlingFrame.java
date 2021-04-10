@@ -3,14 +3,11 @@ package com.younesnaja.bowlingapp.frame.impl;
 import com.younesnaja.bowlingapp.frame.BowlingFrame;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class SpareBowlingFrame extends AbstractBowlingFrame {
 
     public SpareBowlingFrame(int frameNumber) {
         this.frameNumber = frameNumber;
-        isDone = false;
         leftRolls = 0;
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TenPinBowlingGame extends BowlingGame {
     public TenPinBowlingGame() {
-        super(10, 2);
+        super(10);
         initFrames();
     }
 
@@ -30,10 +30,6 @@ public class TenPinBowlingGame extends BowlingGame {
         }};
     }
 
-    public int getBonusRolls() {
-        return bowlingFrames.get(NUMBER_OF_FRAMES - 1).getLeftRolls();
-    }
-
     public int scoreGame() {
         notifyObservers();
         return bowlingFrames.stream().mapToInt(BowlingFrame::getScore).sum();
@@ -43,10 +39,6 @@ public class TenPinBowlingGame extends BowlingGame {
         for (int i = 0; i <= turnNumber; i++) {
             bowlingFrames.get(i).update(bowlingFrames);
         }
-    }
-
-    public void setFrames(List bowlingFrames) {
-        this.bowlingFrames = bowlingFrames;
     }
 
     @Override
@@ -94,11 +86,6 @@ public class TenPinBowlingGame extends BowlingGame {
         BowlingFrame lastBowlingFrame = bowlingFrames.get(NUMBER_OF_FRAMES - 1);
         if(knockScore != '*')
             lastBowlingFrame.getSpareRolls()[frameNumber - NUMBER_OF_FRAMES + rollNumber] = knockScore;
-    }
-
-    @Override
-    public boolean isDone() {
-        return isDone;
     }
 
     @Override
