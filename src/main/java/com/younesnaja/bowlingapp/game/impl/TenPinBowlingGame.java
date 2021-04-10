@@ -1,11 +1,14 @@
 package com.younesnaja.bowlingapp.game.impl;
 
+import com.younesnaja.bowlingapp.exception.InvalidKnockedPinsNumber;
+import com.younesnaja.bowlingapp.exception.MaxKnockedPinsExceededException;
 import com.younesnaja.bowlingapp.exception.NumberOfRollsNotAllowedException;
 import com.younesnaja.bowlingapp.frame.BowlingFrame;
 import com.younesnaja.bowlingapp.frame.impl.AbstractBowlingFrame;
 import com.younesnaja.bowlingapp.frame.impl.SpareBowlingFrame;
 import com.younesnaja.bowlingapp.game.BowlingGame;
 
+import javax.naming.LimitExceededException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,10 @@ public class TenPinBowlingGame extends BowlingGame {
     }
 
     @Override
-    public void roll(int frameNumber, int rollNumber, char knockScore) throws NumberOfRollsNotAllowedException {
+    public void roll(int frameNumber, int rollNumber, String knockScoreString) throws NumberOfRollsNotAllowedException, MaxKnockedPinsExceededException, InvalidKnockedPinsNumber {
+        if(!isRollValid(knockScoreString))
+            throw new InvalidKnockedPinsNumber();
+        char knockScore = knockScoreString.equals("10") ? 'X': knockScoreString.charAt(0);
         if(rollNumber > 1)
             throw new NumberOfRollsNotAllowedException();
 
@@ -52,7 +58,7 @@ public class TenPinBowlingGame extends BowlingGame {
             BowlingFrame currentFrame = bowlingFrames.get(frameNumber);
             if(rollNumber == 0) {
                 currentFrame.setFirstRoll(knockScore);
-                if(knockScore == 'X') {
+                if(knockScore == 'X' || knockScore == 10) {
                     currentFrame.setFrameType(AbstractBowlingFrame.FrameTypes.STRIKE);
                     currentFrame.setSecondRoll('*');
                 }
@@ -62,8 +68,15 @@ public class TenPinBowlingGame extends BowlingGame {
                     currentFrame.setSecondRoll('/');
                     currentFrame.setFrameType(AbstractBowlingFrame.FrameTypes.SPARE);
                 } else {
+                    if(Character.isDigit(knockScoreString.charAt(0)) && Integer.sum(currentFrame.scoreSymbolsToInt(currentFrame.getFirstRoll()), Integer.parseInt(knockScoreString)) > 10)
+                        throw new MaxKnockedPinsExceededException();
                     currentFrame.setSecondRoll(knockScore);
                     currentFrame.setFrameType(AbstractBowlingFrame.FrameTypes.OPEN);
+                    if(bowlingFrames.get(frameNumber).getFirstRoll() == 'X') {
+                        currentFrame.setSecondRoll('*');
+                        if(Integer.parseInt(knockScoreString) > 0)
+                            throw new MaxKnockedPinsExceededException();
+                    }
                 }
             }
 
@@ -75,7 +88,15 @@ public class TenPinBowlingGame extends BowlingGame {
     }
 
     @Override
-    public boolean isRollValid(char knockScore) {
+    public boolean isRollValid(String knockScoreString) {
+        if(knockScoreString.length() == 0)
+            return false;
+
+        char knockScore = knockScoreString.equals("10") ? 'X' : knockScoreString.charAt(0);
+
+        if(Character.isDigit(knockScore) && Integer.parseInt(knockScoreString) > 10)
+            return false;
+
         if(Character.isDigit(knockScore))
             return Character.getNumericValue(knockScore) >= 0 && Character.getNumericValue(knockScore) < 10;
 

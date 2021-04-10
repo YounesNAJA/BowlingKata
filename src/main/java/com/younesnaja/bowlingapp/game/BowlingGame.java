@@ -1,5 +1,7 @@
 package com.younesnaja.bowlingapp.game;
 
+import com.younesnaja.bowlingapp.exception.InvalidKnockedPinsNumber;
+import com.younesnaja.bowlingapp.exception.MaxKnockedPinsExceededException;
 import com.younesnaja.bowlingapp.exception.NumberOfRollsNotAllowedException;
 import com.younesnaja.bowlingapp.frame.BowlingFrame;
 
@@ -14,8 +16,8 @@ public abstract class BowlingGame implements GameObservable {
         this.NUMBER_OF_FRAMES = NUMBER_OF_FRAMES;
     }
 
-    protected BowlingGame() {
-        NUMBER_OF_FRAMES = 10;
+    public int getTurnNumber() {
+        return turnNumber;
     }
 
     protected void initFrames() {}
@@ -37,7 +39,7 @@ public abstract class BowlingGame implements GameObservable {
                 '}';
     }
 
-    public abstract void roll(int frameNumber, int rollNumber, char knockScore) throws NumberOfRollsNotAllowedException;
+    public abstract void roll(int frameNumber, int rollNumber, String knockScoreString) throws NumberOfRollsNotAllowedException, MaxKnockedPinsExceededException, InvalidKnockedPinsNumber;
 
-    public abstract boolean isRollValid(char knockScore);
+    public abstract boolean isRollValid(String knockScoreString);
 }
