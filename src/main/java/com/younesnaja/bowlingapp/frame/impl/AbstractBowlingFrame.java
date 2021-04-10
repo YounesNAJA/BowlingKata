@@ -1,6 +1,7 @@
-package com.younesnaja.bowlingapp.impl;
+package com.younesnaja.bowlingapp.frame.impl;
 
-import com.younesnaja.bowlingapp.BowlingFrame;
+
+import com.younesnaja.bowlingapp.frame.BowlingFrame;
 
 public abstract class AbstractBowlingFrame implements BowlingFrame {
     public enum FrameTypes {
@@ -40,6 +41,15 @@ public abstract class AbstractBowlingFrame implements BowlingFrame {
 
     public void setFrameType(FrameTypes frameType) {
         this.frameType = frameType;
+        if(FrameTypes.STRIKE.equals(frameType)){
+            leftRolls = 2;
+        } else if(FrameTypes.SPARE.equals(frameType)){
+            leftRolls = 1;
+        } else {
+            leftRolls = 0;
+        }
+
+        spareRolls = new char[leftRolls];
     }
 
     @Override
@@ -55,21 +65,12 @@ public abstract class AbstractBowlingFrame implements BowlingFrame {
 
     @Override
     public int getScore() {
-        if(frameScore == 0)
-            scoreFrame();
         return frameScore;
     }
-
-    @Override
-    public abstract void addSpareFrame(BowlingFrame bowlingFrame);
 
     public int scoreSymbolsToInt(char scoreSymbol) {
         if(Character.isLetter(scoreSymbol) && scoreSymbol == 'X'){
             return 10;
-        }
-
-        if(Character.isLetter(scoreSymbol) && scoreSymbol == '/'){
-            return 10 - scoreSymbolsToInt(firstRoll);
         }
 
         if(Character.isDigit(scoreSymbol)){
@@ -86,10 +87,5 @@ public abstract class AbstractBowlingFrame implements BowlingFrame {
                 ", secondRoll=" + secondRoll +
                 ", frameScore=" + frameScore +
                 '}';
-    }
-
-    @Override
-    public AbstractBowlingFrame clone() throws CloneNotSupportedException {
-        return (AbstractBowlingFrame) super.clone();
     }
 }

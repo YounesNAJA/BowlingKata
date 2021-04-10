@@ -1,9 +1,11 @@
-package com.younesnaja.bowlingapp;
+package com.younesnaja.bowlingapp.game;
 
-import java.util.ArrayList;
+import com.younesnaja.bowlingapp.exception.NumberOfRollsNotAllowedException;
+import com.younesnaja.bowlingapp.frame.BowlingFrame;
+
 import java.util.List;
 
-public abstract class BowlingGame {
+public abstract class BowlingGame implements GameObservable {
     protected final int NUMBER_OF_FRAMES;
     protected final int NUMBER_OF_TURNS;
     protected int turnNumber;
@@ -15,9 +17,16 @@ public abstract class BowlingGame {
         this.NUMBER_OF_TURNS = NUMBER_OF_TURNS;
     }
 
+    protected BowlingGame() {
+        NUMBER_OF_FRAMES = 10;
+        NUMBER_OF_TURNS = 2;
+    }
+
+    protected void initFrames() {}
+
     public abstract int getBonusRolls();
 
-    public abstract int score();
+    public abstract int scoreGame();
 
     public abstract boolean isDone();
 
@@ -38,14 +47,7 @@ public abstract class BowlingGame {
                 '}';
     }
 
-     public abstract void roll(int frameNumber, int rollNumber, String knockScore);
+    public abstract void roll(int frameNumber, int rollNumber, char knockScore) throws NumberOfRollsNotAllowedException;
 
-/*    public void rollLastSpares(String... knockScore) {
-        for(int i = 0; i < bowlingFrames.get(NUMBER_OF_FRAMES - 1).getLeftRolls(); i++) {
-            BowlingFrame bowlingFrame = new OpenBowlingFrame();
-            bowlingFrame.roll(0, knockScore[0]);
-            //bowlingGame.getBowlingFrames().add(bowlingFrame);
-            bowlingFrames.get(NUMBER_OF_FRAMES - 1).getSpareRolls()[i] = bowlingFrame;
-        }
-    }*/
+    public abstract boolean isRollValid(char knockScore);
 }

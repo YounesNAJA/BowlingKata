@@ -1,11 +1,8 @@
-package com.younesnaja.bowlingapp;
+package com.younesnaja.bowlingapp.frame;
 
-import com.younesnaja.bowlingapp.impl.AbstractBowlingFrame;
+import com.younesnaja.bowlingapp.frame.impl.AbstractBowlingFrame;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface BowlingFrame {
+public interface BowlingFrame extends FrameObserver {
 
     char getFirstRoll();
 
@@ -27,13 +24,7 @@ public interface BowlingFrame {
 
     char[] getSpareRolls();
 
-    void addSpareFrame(BowlingFrame bowlingFrame);
-
-    //boolean isDone();
-
     AbstractBowlingFrame.FrameTypes getFrameType();
 
     int scoreSymbolsToInt(char scoreSymbol);
-
-    void addSpareRolls(List<BowlingFrame> bowlingFrames);
 }
